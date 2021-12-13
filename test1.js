@@ -2,8 +2,8 @@ const s1 = [{a:1}, {a:2}, {a:3}, {a:4}, {a:128}, {a:129}, {b:65}, {b:66}, {c:1},
 const s2 = [{a:1}, {a:2}, {a:3}, {a:4}, {a:5}, {a:126}, {a:127}, {b:100}, {c:2}, {c:3}, {d:1}];
 const s3 = {};
 
-
 const sortedData = [];
+const batches = [];
 
 //look in S1
 s1.forEach((elemnt) => {
@@ -37,6 +37,17 @@ s3[key].sort( (elem1, elem2) => {
 const key = Object.keys(elem1)[0];
 return elem1[key] - elem2[key];
 });
-sortedData.push(...s3[key])
+sortedData.push(...s3[key]);
+
+s3[key].forEach( (element, index, array) => {
+if(index > 0 && element[key] - array[index - 1][key] === 1) {
+batches[batches.length - 1].push(element);
+} else {
+batches[batches.length] = [ element ];
 }
-console.log(s3)
+})
+}
+
+console.log(s3);
+console.log(sortedData);
+console.log(batches);
